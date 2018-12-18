@@ -10,9 +10,9 @@ const header =  {
   HttpHeaders.contentTypeHeader : 'application/x-www-form-urlencoded'
 };
 class API {
-  static Future getUsers() {
-    var url = baseUrl + "/users";
-    print(url);
-    return http.get(url, headers: header);
+  static Future getUsers() async {
+    var url = baseUrl + "/users";   
+    final result = await http.get(url, headers: header);
+    return result;
   }
 }
