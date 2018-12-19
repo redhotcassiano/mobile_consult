@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:mobile_consult/widgets/drawer_tile.dart';
 
 class CustomDrawer extends StatelessWidget{
-   @override
+
+  final PageController pageController;
+
+  CustomDrawer(this.pageController);
+
+  @override
   Widget build(BuildContext context) {
      Widget _buildDrawerBack() => Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Colors.red, Colors.white],
+          colors: [Colors.red[50], Colors.white],
           begin: Alignment.topCenter, 
           end: Alignment.bottomCenter
 
@@ -69,9 +74,9 @@ class CustomDrawer extends StatelessWidget{
               Divider(
                 color: Colors.white,
               ),
-              DrawerTile(Icons.home, 'Inicio'),
-              DrawerTile(Icons.list, 'Consultórios'),
-              DrawerTile(Icons.playlist_add_check, 'Consultas'),
+              DrawerTile(Icons.home, 'Inicio', pageController, 0),
+              DrawerTile(Icons.list, 'Consultórios', pageController, 1),
+              DrawerTile(Icons.playlist_add_check, 'Consultas', pageController, 2),
             ],
           )
         ],
