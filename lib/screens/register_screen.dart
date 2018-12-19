@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_consult/screens/register_screen.dart';
+import 'package:mobile_consult/screens/home_screen.dart';
 
-class LoginScreen extends StatefulWidget {
+class RegisterScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen>{
+class _RegisterScreenState extends State<RegisterScreen>{
   
   final _formKey = GlobalKey<FormState>();
 
@@ -14,15 +14,15 @@ class _LoginScreenState extends State<LoginScreen>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: Text('Cadastro'),
         centerTitle: true,
         actions: <Widget>[
           FlatButton(
-            child: Text('Criar Conta', style: TextStyle(fontSize: 15.0)),
+            child: Text('voltar', style: TextStyle(fontSize: 15.0)),
             color: Colors.white,
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (contxte)=>RegisterScreen())
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (contxte)=>HomeScreen())
               );
             },
           )
@@ -33,6 +33,16 @@ class _LoginScreenState extends State<LoginScreen>{
         child: ListView(
           padding: EdgeInsets.all(16.0),
           children: <Widget>[
+            TextFormField(
+              decoration: InputDecoration(
+                hintText: 'Nome'
+              ),
+              keyboardType: TextInputType.text,
+              validator: (text){
+                if(text.isEmpty || text.length < 3) return 'Nome Invalido';
+              },
+            ),
+            SizedBox(height: 10.0),
             TextFormField(
               decoration: InputDecoration(
                 hintText: 'E-mail'
@@ -52,23 +62,17 @@ class _LoginScreenState extends State<LoginScreen>{
               validator: (pass){
                 if(pass.isEmpty || pass.length < 6) return 'Senha Invalida';
               },
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: FlatButton(
-                child: Text('Esqueci a Minha Senha', textAlign: TextAlign.right),
-                onPressed: () {},
-                padding: EdgeInsets.zero,
-              )            
-            ),
+            ),            
             SizedBox(height: 15.0),
             Align(
               alignment: Alignment.center,
               child: RaisedButton(
-                child: Text('Entrar', style: TextStyle(fontSize: 18.0), textAlign: TextAlign.center),
+                child: Text('Salvar', style: TextStyle(fontSize: 18.0), textAlign: TextAlign.center),
                 onPressed: () {
                   if(_formKey.currentState.validate()){
-
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (contxte)=>HomeScreen())
+                    );
                   }
                 },
                 padding: EdgeInsets.zero,

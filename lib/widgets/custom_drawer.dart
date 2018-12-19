@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_consult/widgets/drawer_tile.dart';
+import 'package:mobile_consult/screens/login_screen.dart';
 
 class CustomDrawer extends StatelessWidget{
 
@@ -62,7 +63,9 @@ class CustomDrawer extends StatelessWidget{
                                   )
                                 ) ,
                                 onTap: (){
-
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (contxte)=>LoginScreen())
+                                  );
                                 },
                               )
                           ],
