@@ -9,24 +9,14 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen>{
   
   final _formKey = GlobalKey<FormState>();
+  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Cadastro'),
-        centerTitle: true,
-        actions: <Widget>[
-          FlatButton(
-            child: Text('voltar', style: TextStyle(fontSize: 15.0)),
-            color: Colors.white,
-            onPressed: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (contxte)=>HomeScreen())
-              );
-            },
-          )
-        ],
+        centerTitle: true,        
       ),
       body: Form(
         key: _formKey,
