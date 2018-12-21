@@ -75,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen>{
                     child: Text('Entrar', style: TextStyle(fontSize: 18.0), textAlign: TextAlign.center),
                     onPressed: () {
                       if(_formKey.currentState.validate()){
-                        model.signIn();
+                        //model.signUp();
                       }
                     },
                     padding: EdgeInsets.zero,
