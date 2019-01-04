@@ -99,11 +99,11 @@ class _RegisterScreenState extends State<RegisterScreen>{
   }
 
   void _onSuccess () {
-
+    print('-------------- sucesso ---------------');
   }
 
   void _onFailed () {
-    
+    print('------------ erro ------------------');
   }
 
 

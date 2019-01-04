@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_consult/widgets/drawer_tile.dart';
 import 'package:mobile_consult/screens/login_screen.dart';
+import 'package:mobile_consult/models/user_model.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class CustomDrawer extends StatelessWidget{
 
@@ -44,31 +48,35 @@ class CustomDrawer extends StatelessWidget{
                       Positioned(
                         left: 0.0,
                         bottom: 0.0,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text("Olá User!",
-                              style: TextStyle(
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.bold
-                              ),
-                            ),
-                            GestureDetector(
-                              child: Text(
-                                  "Entre ou Cadastre-se >",
-                                  style:TextStyle(
-                                    color: Theme.of(context).primaryColor,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold
-                                  )
-                                ) ,
-                                onTap: (){
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (contxte)=>LoginScreen())
-                                  );
-                                },
-                              )
-                          ],
+                        child: ScopedModelDescendant<UserModel>(
+                          builder:(context, child, model) {                            
+                            return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text("Olá, ${!model.isLoggedIn()}",
+                                    style: TextStyle(
+                                      fontSize: 15.0,
+                                      fontWeight: FontWeight.bold
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    child: Text(
+                                        "Entre ou Cadastre-se >",
+                                        style:TextStyle(
+                                          color: Theme.of(context).primaryColor,
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold
+                                        )
+                                      ) ,
+                                      onTap: (){
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(builder: (contxte)=>LoginScreen())
+                                        );
+                                      },
+                                    )
+                                ],
+                              );
+                          }
                         ),
                       )
                   ],

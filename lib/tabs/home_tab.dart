@@ -33,33 +33,17 @@ class HomeTab extends StatelessWidget{
                 centerTitle: true,
               ),
             ),
-             
-            //Add aqui o widget;
-            SliverGrid(                            
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 900.0,                
-                mainAxisSpacing: 50.0,
-                crossAxisSpacing: 20.0,                               
-              ),
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  return Container(
-                    alignment: Alignment.center,
-                    height: 950.0,
-                    color: Colors.transparent,                    
-                    child: ListUsers(),
-                  );
-                },
-              childCount: 1,
-              ),
-            ),  
-
-            
                                          
           ],
         ),
+        Container(
+          padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
+          margin: EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 0.0),
+          color: Colors.transparent,
+          child: ListUsers(),
+        ),
            
-      ],      
+      ], 
     );    
   }
    
