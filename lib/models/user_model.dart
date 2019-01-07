@@ -70,33 +70,8 @@ class UserModel extends Model {
   }
 
   void recoverPass () {}
-
-  bool isLoggedIn () {
-    
-    var isTrue = _isLoggadStore();
-
-    if (isTrue != null) {
-      return true;
-    }else{
-      return false;
-    }
-
-  }
-
-  _isLoggadStore() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    String name = prefs.getString('user_name');
-    String validade;
-    if(name != null) {
-      validade= 'isLogadded'; 
-    }else{
-      validade = null;
-    }
-
-    return validade;
-  }
-
+  
+  
   loginIn (Map<String, dynamic> userData, String pass) async {
     
     const baseUrl = "http://www.megaredhot.com:8080/";
@@ -118,16 +93,25 @@ class UserModel extends Model {
     return json.decode(response.body);    
   }
 
+  singOut () {
+    _deleteUserData();
+
+  }
+
   authApp () async {    
     const baseUrl = "http://www.megaredhot.com:8080/";
-    const client_id = '9';
-    const client_secret = 'CJekmDnHOhs9NYkdvU5ROqCuaXL9VThPZBtdMPCB';
+    const client_id = '10';
+    const client_secret = 'Q8iScMNBmAujg0DvdAxQgGVr49jE9AddjaIRCp18';
+    const username = 'admin@email.com';
+    const password = '123456';
 
-    final response = await http.post(baseUrl + "/oauth/token", body: {
-      'grant_type'    : 'client_credentials',
-      'client_id'     : client_id,
+    final response = await http.post(baseUrl + "oauth/token", body: {      
+      'grant_type' : 'password',
+      'client_id' : client_id,
       'client_secret' : client_secret,
-      'scope'         : '*'
+      'username' : username,
+      'password' : password,
+      'scope' : '*',
     });
     
     return json.decode(response.body);
@@ -171,7 +155,28 @@ class UserModel extends Model {
     return result;
   }  
 
+  Future<Null> _deleteUserData () async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+     if (prefs.getString('user_name') != null){
+       print('----------- Exit User -------------------');
+       print(prefs.getString('user_name'));
+       prefs.remove('user_name');
+    }
+
+    if (prefs.getString('user_email') != null){
+      prefs.remove('user_email');
+    }
+
+    if (prefs.getString('apiKey') != null){
+      prefs.remove('apiKey');
+    }
+
+    notifyListeners();
+    
+  }
+
   Future<Null> _saveUserData ({@required Map<String, dynamic> userData, @required String apiToken}) async {
+    _deleteUserData();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String name = userData['name'];
     String email = userData['email'];
@@ -190,6 +195,26 @@ class UserModel extends Model {
 
     print('--------- salvo Memoria ------------');
     print(prefs.getString('user_name'));
+  }
+
+  Future<String> getUserName () async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+   
+    print(prefs.getString('user_name'));
+
+    return prefs.getString('user_name');
+
+  }
+
+  Future<bool> isLoadingIn () async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if(prefs.getString('user_name') != null){
+      return true;
+    }else{
+      return false;
+    }
+
   }
 
 }

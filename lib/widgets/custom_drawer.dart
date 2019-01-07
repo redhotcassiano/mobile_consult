@@ -13,7 +13,7 @@ class CustomDrawer extends StatelessWidget{
   CustomDrawer(this.pageController);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {    
      Widget _buildDrawerBack() => Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -52,28 +52,64 @@ class CustomDrawer extends StatelessWidget{
                           builder:(context, child, model) {                            
                             return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text("Olá, ${!model.isLoggedIn()}",
-                                    style: TextStyle(
-                                      fontSize: 15.0,
-                                      fontWeight: FontWeight.bold
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    child: Text(
-                                        "Entre ou Cadastre-se >",
-                                        style:TextStyle(
-                                          color: Theme.of(context).primaryColor,
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold
-                                        )
-                                      ) ,
-                                      onTap: (){
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(builder: (contxte)=>LoginScreen())
+                                children: <Widget>[                                  
+                                  FutureBuilder(
+                                    future: model.getUserName(), // a previously-obtained Future<String> or null
+                                    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {                                                                   
+                                      if(snapshot.data != null){
+                                         return Text("Olá, ${snapshot.data}!",
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.bold
+                                          ),
                                         );
-                                      },
-                                    )
+                                      }else{
+                                        return Text("Olá, Visitante!",
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.bold
+                                          ),
+                                        );
+                                      }                                     
+                                    }
+                                  ),
+                                  FutureBuilder(
+                                    future: model.isLoadingIn(), // a previously-obtained Future<String> or null
+                                    builder: (BuildContext context, AsyncSnapshot<bool> snapshot) { 
+                                      print(snapshot);                                                                  
+                                      if(snapshot.data != null){
+                                         return  GestureDetector(
+                                        child: Text(
+                                            !snapshot.data ?
+                                            "Entre ou cadastre-se >"
+                                            : "Sair",
+                                            style:TextStyle(
+                                              color: Theme.of(context).primaryColor,
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.bold
+                                            )
+                                          ) ,
+                                          onTap: (){                                        
+                                            if(!snapshot.data){
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(builder: (contxte)=>LoginScreen())
+                                              );
+                                            }else{
+                                              model.singOut();
+                                            }
+                                          
+                                          },
+                                        );
+                                      }else{
+                                        return Text("Olá, Visitante!",
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.bold
+                                          ),
+                                        );
+                                      }                                     
+                                    }
+                                  ),                                 
                                 ],
                               );
                           }
