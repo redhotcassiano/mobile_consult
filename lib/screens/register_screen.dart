@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_consult/screens/home_screen.dart';
 import 'package:mobile_consult/models/user_model.dart';
+import 'package:mobile_consult/screens/home_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -15,10 +15,12 @@ class _RegisterScreenState extends State<RegisterScreen>{
   final _nameController     = TextEditingController();
   final _passwordController = TextEditingController();
   final _emailController    = TextEditingController();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('Cadastro'),
         centerTitle: true,        
@@ -99,12 +101,26 @@ class _RegisterScreenState extends State<RegisterScreen>{
   }
 
   void _onSuccess () {
-    print('-------------- sucesso ---------------');
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(content: Text("Usuário criado com sucesso!"),
+        backgroundColor: Theme.of(context).primaryColor,
+        duration: Duration(seconds: 2),
+      )
+    );
+    Future.delayed(Duration(seconds: 2)).then((_){
+      Navigator.of(context).pop(
+         MaterialPageRoute(builder: (contxte)=>HomeScreen())
+      );
+    });
   }
 
   void _onFailed () {
-    print('------------ erro ------------------');
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(content: Text("Erro ao Criar Usuário!"),
+        backgroundColor: Theme.of(context).primaryColor,
+        duration: Duration(seconds: 2),
+      )
+    );
   }
-
 
 }

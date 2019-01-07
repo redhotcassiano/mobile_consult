@@ -43,8 +43,6 @@ class UserModel extends Model {
       'type_acl'  : 'CL',
       'profiles_id' : '5'
     }, headers: header).then((http.Response response) {
-      print("Response status: ${response.statusCode}");
-      print("Response header: ${header}");
       print(response.body);
       print(response.request);
 
@@ -63,9 +61,9 @@ class UserModel extends Model {
     
   }
 
-  void signIn () async {   
+  void signIn ({ @required Map<String, dynamic> userData, @required VoidCallback onSuccess, @required VoidCallback onFailed}) async {   
 
-    await Future.delayed(Duration(seconds: 3));    
+       
     
   }
 
@@ -75,12 +73,8 @@ class UserModel extends Model {
   loginIn (Map<String, dynamic> userData, String pass) async {
     
     const baseUrl = "http://www.megaredhot.com:8080/";
-    const baseUrlApi = "http://www.megaredhot.com:8080/api";
     const client_id = '9';
-    const client_secret = 'CJekmDnHOhs9NYkdvU5ROqCuaXL9VThPZBtdMPCB';
-    const urlCallback = 'http://localhost/callback';
-    const user = 'admin@email.com';
-    const pass = '123456';     
+    const client_secret = 'CJekmDnHOhs9NYkdvU5ROqCuaXL9VThPZBtdMPCB';     
 
     final response = await http.post(baseUrl + "/oauth/token", body: {
       'grant_type'    : 'client_credentials',

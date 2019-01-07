@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_consult/widgets/drawer_tile.dart';
-import 'package:mobile_consult/screens/login_screen.dart';
+import 'package:mobile_consult/screens/new_login_screen.dart';
 import 'package:mobile_consult/models/user_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -92,7 +90,7 @@ class CustomDrawer extends StatelessWidget{
                                           onTap: (){                                        
                                             if(!snapshot.data){
                                               Navigator.of(context).push(
-                                                MaterialPageRoute(builder: (contxte)=>LoginScreen())
+                                                MaterialPageRoute(builder: (contxte)=>NewLoginPage())
                                               );
                                             }else{
                                               model.singOut();
