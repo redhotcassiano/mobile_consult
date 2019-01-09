@@ -21,20 +21,12 @@ class UserModel extends Model {
     final data =  await authApp();  
 
     final Map<String, dynamic> authData = data; 
-     final apiToken = authData['access_token'].toString();
-     final header =  {
+    final apiToken = authData['access_token'].toString();
+    final header =  {
       HttpHeaders.authorizationHeader: 'Bearer ' + apiToken, 
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.contentTypeHeader : 'application/x-www-form-urlencoded'
-    };
-
-    print('---------------- LOGADO ---------------------');
-    print(authData['access_token']);
-    print('---------------- Data --------------');
-    print(userData);   
-
-    print('---------------- user --------------------');
-    print(userData['name']);   
+    };   
 
     await http.post(baseUrlApi + "/users", body: {
       'name' : userData['name'],
@@ -62,9 +54,47 @@ class UserModel extends Model {
   }
 
   void signIn ({ @required Map<String, dynamic> userData, @required VoidCallback onSuccess, @required VoidCallback onFailed}) async {   
+    isLoading = true;
+    notifyListeners(); 
 
-       
+    const baseUrlApi = "http://www.megaredhot.com:8080/api";   
+
+    final data =  await authApp();  
+
+    final Map<String, dynamic> authData = data; 
+    final apiToken = authData['access_token'].toString();
+    final header =  {
+      HttpHeaders.authorizationHeader: 'Bearer ' + apiToken, 
+      HttpHeaders.acceptHeader: 'application/json',
+      HttpHeaders.contentTypeHeader : 'application/x-www-form-urlencoded'
+    };
     
+    await http.post(baseUrlApi + "/login", body: {      
+      'email' : userData['email'],
+      'password' : userData['password']
+    }, headers: header).then((http.Response response) {
+      print(response.body);
+      print(response.request);
+
+      if(response.statusCode == 200) { 
+
+        final data = json.decode(response.body);
+        Map<String, dynamic> userGetData = Map();
+
+        userGetData['name'] = data['name'];
+        userGetData['email'] = data['email'];
+
+        _saveUserData(userData: userGetData, apiToken: authData['access_token']);      
+        isLoading = false;
+        notifyListeners();
+        onSuccess();
+      }else{
+        isLoading = false;
+        notifyListeners();
+        onFailed(); 
+      }      
+
+    });   
   }
 
   void recoverPass () {}
